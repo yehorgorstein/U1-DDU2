@@ -10,19 +10,10 @@ function createAllCityBoxes (cityContainer){
 }
 
 function markCityBox (cityObject, kindOfCity){
-    
-    if (!cityObject) {
-        target.textContent = cityObject + "finns inte i databasen";
-        return;
-    }
-    console.log(target.textContent)
-
     for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityObject) {
             let cityBox = document.querySelector(`[id="${cities[i].name}"]`);
-            cityBox.textContent = cities[i].name;
-            console.log(cityBox)
-
+            target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
             if (kindOfCity === "target"){
                 cityBox.classList.add("target")
             } else if (kindOfCity === "closest"){
