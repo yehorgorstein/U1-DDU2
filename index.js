@@ -1,4 +1,3 @@
-// Recommended: All functions declared here
 function createAllCityBoxes (cityContainer){
     for (let i = 0; i < cities.length; i++){
         let cityBox = document.createElement("div");
@@ -26,30 +25,35 @@ function markCityBox (cityObject, kindOfCity){
     } console.log(kindOfCity)
 }
 
-function getClosestCity(targetCityObject) {
-    let shortestDistance = Infinity;
-    let closestCity = null; 
+function getCityId(cityName){
+    for (let i = 0; i <cities.length; i++){
+        if (cities[i].name === cityName){
+            console.log(cities[i].id)
+            return cities[i].id;
+        }
+    } 
+}
 
-    for (let i = 0; i < distances.length; i++) {
-        if (targetCityObject === distances[i].city1) {
-            if (distances[i].distance < shortestDistance) {
+function getClosestCity(targetCityObject) {
+    targetCityObject = getCityId(cityTarget);
+    let shortestDistance = Infinity;
+    let closestCity = null;
+
+    for (let i = 0; i < cities.length; i++){
+        if (distances[i].city1 === targetCityObject){
+            if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city2;
             }
-        } else if (targetCityObject === distances[i].city2) {
-            if (distances[i].distance < shortestDistance) {
+        } else if (distances[i].city2 === targetCityObject){
+            if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city1;
             }
         }
+        console.log(closestCity)
     }
-
-    if (closestCity) {
-        markCityBox(closestCity, "closest"); 
-    } 
 }
-
-// Recommended: constants with references to existing HTML-elements
 
 const cityContainer = document.getElementById("cities");
 let cityTarget = prompt("Vilken stad?")
@@ -61,5 +65,4 @@ let target = document.querySelector("h2");
 createAllCityBoxes(cityContainer);
 getClosestCity(cityTarget);
 markCityBox(cityTarget, kindOfCity);
-
 //getClosestCity(targetCityObject, "closest");
