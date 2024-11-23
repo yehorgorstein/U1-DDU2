@@ -21,9 +21,32 @@ function markCityBox (cityObject, kindOfCity){
             } else if (kindOfCity === "furthest"){
                 cityBox.classList.add("furthest");
             }
-            console.log(kindOfCity)
+            
+        }
+    } console.log(kindOfCity)
+}
+
+function getClosestCity(targetCityObject) {
+    let shortestDistance = Infinity;
+    let closestCity = null; 
+
+    for (let i = 0; i < distances.length; i++) {
+        if (targetCityObject === distances[i].city1) {
+            if (distances[i].distance < shortestDistance) {
+                shortestDistance = distances[i].distance;
+                closestCity = distances[i].city2;
+            }
+        } else if (targetCityObject === distances[i].city2) {
+            if (distances[i].distance < shortestDistance) {
+                shortestDistance = distances[i].distance;
+                closestCity = distances[i].city1;
+            }
         }
     }
+
+    if (closestCity) {
+        markCityBox(closestCity, "closest"); 
+    } 
 }
 
 // Recommended: constants with references to existing HTML-elements
@@ -33,8 +56,10 @@ let cityTarget = prompt("Vilken stad?")
 let kindOfCity = "target";
 let target = document.querySelector("h2");
 
-
 // Recommended: Ask for the city name and then the rest of the code
 
 createAllCityBoxes(cityContainer);
+getClosestCity(cityTarget);
 markCityBox(cityTarget, kindOfCity);
+
+//getClosestCity(targetCityObject, "closest");
