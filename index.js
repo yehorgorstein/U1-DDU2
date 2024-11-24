@@ -9,6 +9,7 @@ function createAllCityBoxes (cityContainer){
 }
 
 function markCityBox (cityObject, kindOfCity){
+    let cityFound = false;
     for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityObject) {
             let cityBox = document.querySelector(`[id="${cities[i].name}"]`);
@@ -24,9 +25,14 @@ function markCityBox (cityObject, kindOfCity){
                     furthest.textContent = cities[i].name;
                     cityBox.classList.add("furthest");
                 }   
-            }
+            } 
+            cityFound = true;
+            break;
         }
-    } console.log(kindOfCity)
+    }
+    if (!cityFound) {
+        doesNotExist.innerHTML = cityObject + " " + "finns inte i databasen";
+    }
 }
 
 function getCityId(cityName){
@@ -56,7 +62,6 @@ function getClosestCity(targetCityObject) {
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city2;
             }
-
         } else if (distances[i].city2 === targetCityObject){
             if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
@@ -67,7 +72,7 @@ function getClosestCity(targetCityObject) {
         //console.log(distances[i].city1)
         //console.log(distances[i].city2)
         //console.log(distances[i].distance)
-        console.log(shortestDistance)
+        //console.log(shortestDistance)
         //console.log(closestCity)
         //console.log(getCityNameById(closestCity))
     
@@ -102,7 +107,7 @@ function getFurthestCity(targetCityObject) {
         //console.log(distances[i].city1)
         //console.log(distances[i].city2)
         //console.log(distances[i].distance)
-        console.log(longestDistance)
+        //console.log(longestDistance)
         //console.log(furthestCity)
         //console.log(getCityNameById(furthestCity))
     
@@ -112,8 +117,7 @@ function getFurthestCity(targetCityObject) {
         const furthestCityName = getCityNameById(furthestCity);
         markCityBox(furthestCityName, "furthest");
         longestDistanceToCity = longestDistance;
-    }
-    console.log(longestDistanceToCity)
+    } 
 }
 
 const cityContainer = document.getElementById("cities");
@@ -122,6 +126,8 @@ let kindOfCity = "target";
 let target = document.querySelector("h2");
 let closest = document.getElementById("closest");
 let furthest = document.getElementById("furthest");
+let doesNotExist = document.querySelector("h3");
+let diagram = document.getElementById("table");
 
 // Recommended: Ask for the city name and then the rest of the code
 
@@ -129,3 +135,10 @@ createAllCityBoxes(cityContainer);
 markCityBox(cityTarget, kindOfCity);
 getClosestCity(cityTarget);
 getFurthestCity(cityTarget);
+
+for (let i = 0; i < cities.length; i++){
+    let cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.textContent = cities[i].id;
+    diagram.appendChild(cell);
+}
