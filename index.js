@@ -18,8 +18,10 @@ function markCityBox (cityObject, kindOfCity){
                     target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
                     cityBox.classList.add("target")
                 } else if (kindOfCity === "closest"){
+                    closest.textContent = cities[i].name;
                     cityBox.classList.add("closest");
                 } else if (kindOfCity === "furthest"){
+                    furthest.textContent = cities[i].name;
                     cityBox.classList.add("furthest");
                 }   
             }
@@ -65,7 +67,7 @@ function getClosestCity(targetCityObject) {
         //console.log(distances[i].city1)
         //console.log(distances[i].city2)
         //console.log(distances[i].distance)
-        //console.log(shortestDistance)
+        console.log(shortestDistance)
         //console.log(closestCity)
         //console.log(getCityNameById(closestCity))
     
@@ -74,6 +76,7 @@ function getClosestCity(targetCityObject) {
     if (closestCity) {
         const closestCityName = getCityNameById(closestCity);
         markCityBox(closestCityName, "closest");
+        shortestDistanceToCity = shortestDistance;
     }
 }
 
@@ -99,7 +102,7 @@ function getFurthestCity(targetCityObject) {
         //console.log(distances[i].city1)
         //console.log(distances[i].city2)
         //console.log(distances[i].distance)
-        //console.log(longestDistance)
+        console.log(longestDistance)
         //console.log(furthestCity)
         //console.log(getCityNameById(furthestCity))
     
@@ -108,13 +111,17 @@ function getFurthestCity(targetCityObject) {
     if (furthestCity) {
         const furthestCityName = getCityNameById(furthestCity);
         markCityBox(furthestCityName, "furthest");
+        longestDistanceToCity = longestDistance;
     }
+    console.log(longestDistanceToCity)
 }
 
 const cityContainer = document.getElementById("cities");
 let cityTarget = prompt("Vilken stad?")
 let kindOfCity = "target";
 let target = document.querySelector("h2");
+let closest = document.getElementById("closest");
+let furthest = document.getElementById("furthest");
 
 // Recommended: Ask for the city name and then the rest of the code
 
