@@ -26,7 +26,7 @@ function markCityBox (cityObject, kindOfCity){
 }
 
 function getCityId(cityName){
-    for (let i = 0; i <cities.length; i++){
+    for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityName){
             console.log(cities[i].id)
             return cities[i].id;
@@ -34,24 +34,43 @@ function getCityId(cityName){
     } 
 }
 
+function getCityNameById(cityId){
+    for (let i = 0; i < cities.length; i++){
+        if (cities[i].id === cityId){
+            return cities[i].name;
+        }
+    }
+}
+
 function getClosestCity(targetCityObject) {
     targetCityObject = getCityId(cityTarget);
     let shortestDistance = Infinity;
     let closestCity = null;
+    console.log(targetCityObject)
+    for (let i = 0; i < distances.length; i++){
 
-    for (let i = 0; i < cities.length; i++){
-        if (distances[i].city1 === targetCityObject){
+        if (distances[i].city1 === targetCityObject){ 
             if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city2;
             }
+
         } else if (distances[i].city2 === targetCityObject){
             if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city1;
             }
+        } else if (distances[i].city1  > distances.length && distances[i].city2 > distances.length){
+            return getCityNameById(closestCity);
         }
+        
+        console.log(distances[i].city1)
+        console.log(distances[i].city2)
+        console.log(distances[i].distance)
+        console.log(shortestDistance)
         console.log(closestCity)
+        console.log(getCityNameById(closestCity))
+        markCityBox(closestCity, "closest")
     }
 }
 
