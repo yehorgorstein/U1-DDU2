@@ -12,15 +12,17 @@ function markCityBox (cityObject, kindOfCity){
     for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityObject) {
             let cityBox = document.querySelector(`[id="${cities[i].name}"]`);
-            target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
-            if (kindOfCity === "target"){
-                cityBox.classList.add("target")
-            } else if (kindOfCity === "closest"){
-                cityBox.classList.add("closest");
-            } else if (kindOfCity === "furthest"){
-                cityBox.classList.add("furthest");
+            console.log(cityBox)
+            if (cityBox){
+                if (kindOfCity === "target"){
+                    target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
+                    cityBox.classList.add("target")
+                } else if (kindOfCity === "closest"){
+                    cityBox.classList.add("closest");
+                } else if (kindOfCity === "furthest"){
+                    cityBox.classList.add("furthest");
+                }   
             }
-            
         }
     } console.log(kindOfCity)
 }
@@ -60,9 +62,7 @@ function getClosestCity(targetCityObject) {
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city1;
             }
-        } else if (distances[i].city1  > distances.length && distances[i].city2 > distances.length){
-            return getCityNameById(closestCity);
-        }
+        } 
         
         console.log(distances[i].city1)
         console.log(distances[i].city2)
@@ -70,7 +70,12 @@ function getClosestCity(targetCityObject) {
         console.log(shortestDistance)
         console.log(closestCity)
         console.log(getCityNameById(closestCity))
-        markCityBox(closestCity, "closest")
+    
+    }
+
+    if (closestCity) {
+        const closestCityName = getCityNameById(closestCity);
+        markCityBox(closestCityName, "closest");
     }
 }
 
@@ -82,6 +87,5 @@ let target = document.querySelector("h2");
 // Recommended: Ask for the city name and then the rest of the code
 
 createAllCityBoxes(cityContainer);
-getClosestCity(cityTarget);
 markCityBox(cityTarget, kindOfCity);
-//getClosestCity(targetCityObject, "closest");
+getClosestCity(cityTarget);
