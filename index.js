@@ -17,7 +17,8 @@ function markCityBox (cityObject, kindOfCity){
             if (cityBox){
                 if (kindOfCity === "target"){
                     target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
-                    cityBox.classList.add("target")
+                    cityBox.classList.add("target");
+                    document.title = cityObject;
                 } else if (kindOfCity === "closest"){
                     closest.textContent = cities[i].name;
                     cityBox.classList.add("closest");
@@ -32,6 +33,7 @@ function markCityBox (cityObject, kindOfCity){
     }
     if (!cityFound) {
         doesNotExist.innerHTML = cityObject + " " + "finns inte i databasen";
+        document.title = "Not Found";
     }
 }
 
@@ -99,7 +101,7 @@ function getFurthestCity(targetCityObject) {
 
         } else if (distances[i].city2 === targetCityObject){
             if (distances[i].distance > longestDistance){
-                shortestDistance = distances[i].distance;
+                longestDistance = distances[i].distance;
                 furthestCity = distances[i].city1;
             }
         } 
@@ -128,6 +130,10 @@ let closest = document.getElementById("closest");
 let furthest = document.getElementById("furthest");
 let doesNotExist = document.querySelector("h3");
 let diagram = document.getElementById("table");
+let rows = document.createElement("div");
+diagram.appendChild(rows);
+let shortestDistanceToCity;
+let longestDistanceToCity;
 
 // Recommended: Ask for the city name and then the rest of the code
 
@@ -136,9 +142,35 @@ markCityBox(cityTarget, kindOfCity);
 getClosestCity(cityTarget);
 getFurthestCity(cityTarget);
 
-for (let i = 0; i < cities.length; i++){
-    let cell = document.createElement("div");
-    cell.classList.add("cell");
-    cell.textContent = cities[i].id;
-    diagram.appendChild(cell);
+
+function column (){
+    for (let i = 0; i < cities.length; i++){
+        let head_column = document.createElement("div");
+        head_column.classList.add("head_column");
+        head_column.classList.add("cell");
+        diagram.appendChild(head_column);
+        head_column.textContent = cities[i].id;
+    }
 }
+
+function row (){
+    let empty = document.createElement("div");
+    empty.style.height = "16px";
+    empty.classList.add("head_row");
+    empty.textContent = "";
+    rows.appendChild(empty);
+    for (let i = 0; i < cities.length; i++){
+        let head_row = document.createElement("div");
+        head_row.classList.add("head_row");
+        head_row.classList.add("cell");
+        rows.appendChild(head_row);
+        head_row.textContent = cities[i].id + "-" + cities[i].name;
+        if (cities[i].id % 2 === 0){
+            head_row.classList.add("even_row");
+        }
+    }
+}
+column();
+row();
+console.log(column)
+console.log(row)
