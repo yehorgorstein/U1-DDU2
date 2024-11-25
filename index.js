@@ -13,18 +13,17 @@ function markCityBox (cityObject, kindOfCity){
     for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityObject) {
             let cityBox = document.querySelector(`[id="${cities[i].name}"]`);
-            console.log(cityBox)
             if (cityBox){
                 if (kindOfCity === "target"){
                     target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
                     cityBox.classList.add("target");
                     document.title = cityObject;
                 } else if (kindOfCity === "closest"){
-                    closest.textContent = cities[i].name;
                     cityBox.classList.add("closest");
+                    closest.textContent = cities[i].name;
                 } else if (kindOfCity === "furthest"){
-                    furthest.textContent = cities[i].name;
                     cityBox.classList.add("furthest");
+                    furthest.textContent = cities[i].name;
                 }   
             } 
             cityFound = true;
@@ -58,7 +57,6 @@ function getClosestCity(targetCityObject) {
     let shortestDistance = Infinity;
     let closestCity = null;
     for (let i = 0; i < distances.length; i++){
-
         if (distances[i].city1 === targetCityObject){ 
             if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
@@ -83,7 +81,6 @@ function getClosestCity(targetCityObject) {
     if (closestCity) {
         const closestCityName = getCityNameById(closestCity);
         markCityBox(closestCityName, "closest");
-        shortestDistanceToCity = shortestDistance;
     }
 }
 
@@ -92,13 +89,11 @@ function getFurthestCity(targetCityObject) {
     let longestDistance = 0;
     let furthestCity = null;
     for (let i = 0; i < distances.length; i++){
-
         if (distances[i].city1 === targetCityObject){ 
             if (distances[i].distance > longestDistance){
                 longestDistance = distances[i].distance;
                 furthestCity = distances[i].city2;
             }
-
         } else if (distances[i].city2 === targetCityObject){
             if (distances[i].distance > longestDistance){
                 longestDistance = distances[i].distance;
@@ -118,32 +113,8 @@ function getFurthestCity(targetCityObject) {
     if (furthestCity) {
         const furthestCityName = getCityNameById(furthestCity);
         markCityBox(furthestCityName, "furthest");
-        longestDistanceToCity = longestDistance;
     } 
 }
-
-const cityContainer = document.getElementById("cities");
-let cityTarget = prompt("Vilken stad?")
-let kindOfCity = "target";
-let target = document.querySelector("h2");
-let closest = document.getElementById("closest");
-let furthest = document.getElementById("furthest");
-let doesNotExist = document.querySelector("h3");
-let diagram = document.getElementById("table");
-
-
-// Recommended: Ask for the city name and then the rest of the code
-
-createAllCityBoxes(cityContainer);
-markCityBox(cityTarget, kindOfCity);
-getClosestCity(cityTarget);
-getFurthestCity(cityTarget);
-
-let empty = document.createElement("div");
-empty.style.height = "20px";
-empty.classList.add("cell");
-empty.textContent = "";
-diagram.appendChild(empty);
 
 function column (){
     for (let i = 0; i < cities.length; i++){
@@ -182,14 +153,29 @@ function row (){
             if (cities[i].id % 2 === 0){
                 cell.classList.add("even_row");
             }
-            
             diagram.appendChild(cell);
         }
         
     }
 }
 
+const cityContainer = document.getElementById("cities");
+let cityTarget = prompt("Vilken stad?")
+let kindOfCity = "target";
+let target = document.querySelector("h2");
+let closest = document.getElementById("closest");
+let furthest = document.getElementById("furthest");
+let doesNotExist = document.querySelector("h3");
+let diagram = document.getElementById("table");
+let empty = document.createElement("div");
+empty.style.height = "20px";
+empty.classList.add("cell");
+empty.textContent = "";
+diagram.appendChild(empty);
+
+createAllCityBoxes(cityContainer);
+markCityBox(cityTarget, kindOfCity);
+getClosestCity(cityTarget);
+getFurthestCity(cityTarget);
 column();
 row();
-console.log(column)
-console.log(row)
