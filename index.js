@@ -13,6 +13,8 @@ function markCityBox (cityObject, kindOfCity){
     for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityObject) {
             let cityBox = document.querySelector(`[id="${cities[i].name}"]`);
+            console.log(longestDistanceToCity)
+            console.log(shortestDistanceToCity)
             if (cityBox){
                 if (kindOfCity === "target"){
                     target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
@@ -21,9 +23,11 @@ function markCityBox (cityObject, kindOfCity){
                 } else if (kindOfCity === "closest"){
                     cityBox.classList.add("closest");
                     closest.textContent = cities[i].name;
+                    cityBox.textContent = cities[i].name + " " + "ligger" + " " + shortestDistanceToCity / 10 + " " + "mil" + " " + "bort";
                 } else if (kindOfCity === "furthest"){
                     cityBox.classList.add("furthest");
                     furthest.textContent = cities[i].name;
+                    cityBox.textContent = cities[i].name + " " + "ligger" + " " + longestDistanceToCity / 10 + " " + "mil" + " " + "bort";
                 }   
             } 
             cityFound = true;
@@ -61,23 +65,16 @@ function getClosestCity(targetCityObject) {
             if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city2;
+                shortestDistanceToCity = distances[i].distance;
             }
         } else if (distances[i].city2 === targetCityObject){
             if (distances[i].distance < shortestDistance){
                 shortestDistance = distances[i].distance;
                 closestCity = distances[i].city1;
+                shortestDistanceToCity = distances[i].distance;
             }
         } 
-        
-        //console.log(distances[i].city1)
-        //console.log(distances[i].city2)
-        //console.log(distances[i].distance)
-        //console.log(shortestDistance)
-        //console.log(closestCity)
-        //console.log(getCityNameById(closestCity))
-    
     }
-
     if (closestCity) {
         const closestCityName = getCityNameById(closestCity);
         markCityBox(closestCityName, "closest");
@@ -93,23 +90,16 @@ function getFurthestCity(targetCityObject) {
             if (distances[i].distance > longestDistance){
                 longestDistance = distances[i].distance;
                 furthestCity = distances[i].city2;
+                longestDistanceToCity = distances[i].distance;
             }
         } else if (distances[i].city2 === targetCityObject){
             if (distances[i].distance > longestDistance){
                 longestDistance = distances[i].distance;
                 furthestCity = distances[i].city1;
+                longestDistanceToCity = distances[i].distance;
             }
         } 
-        
-        //console.log(distances[i].city1)
-        //console.log(distances[i].city2)
-        //console.log(distances[i].distance)
-        //console.log(longestDistance)
-        //console.log(furthestCity)
-        //console.log(getCityNameById(furthestCity))
-    
     }
-
     if (furthestCity) {
         const furthestCityName = getCityNameById(furthestCity);
         markCityBox(furthestCityName, "furthest");
@@ -141,9 +131,9 @@ function row (){
             if (i === j) {
                 cell.textContent = ""; 
             } else {
-                let distance = "";
+                let distance = 0;
                 for (const range of distances) {
-                    if (range.city1 === i && range.city2 === j || range.city1 === j && range.city2 === i) {
+                    if (range.city1 === cities[i].id && range.city2 === cities[j].id || range.city1 === cities[j].id && range.city2 === cities[i].id) {
                         distance = range.distance;
                         break;
                     }
@@ -155,7 +145,6 @@ function row (){
             }
             diagram.appendChild(cell);
         }
-        
     }
 }
 
@@ -164,7 +153,9 @@ let cityTarget = prompt("Vilken stad?")
 let kindOfCity = "target";
 let target = document.querySelector("h2");
 let closest = document.getElementById("closest");
+let shortestDistanceToCity;
 let furthest = document.getElementById("furthest");
+let longestDistanceToCity;
 let doesNotExist = document.querySelector("h3");
 let diagram = document.getElementById("table");
 let empty = document.createElement("div");
