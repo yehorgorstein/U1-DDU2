@@ -130,10 +130,7 @@ let closest = document.getElementById("closest");
 let furthest = document.getElementById("furthest");
 let doesNotExist = document.querySelector("h3");
 let diagram = document.getElementById("table");
-let rows = document.createElement("div");
-diagram.appendChild(rows);
-let shortestDistanceToCity;
-let longestDistanceToCity;
+
 
 // Recommended: Ask for the city name and then the rest of the code
 
@@ -142,6 +139,11 @@ markCityBox(cityTarget, kindOfCity);
 getClosestCity(cityTarget);
 getFurthestCity(cityTarget);
 
+let empty = document.createElement("div");
+empty.style.height = "20px";
+empty.classList.add("cell");
+empty.textContent = "";
+diagram.appendChild(empty);
 
 function column (){
     for (let i = 0; i < cities.length; i++){
@@ -154,22 +156,39 @@ function column (){
 }
 
 function row (){
-    let empty = document.createElement("div");
-    empty.style.height = "16px";
-    empty.classList.add("head_row");
-    empty.textContent = "";
-    rows.appendChild(empty);
     for (let i = 0; i < cities.length; i++){
         let head_row = document.createElement("div");
-        head_row.classList.add("head_row");
-        head_row.classList.add("cell");
-        rows.appendChild(head_row);
+        head_row.classList.add("head_row", "cell");
+        diagram.appendChild(head_row);              
         head_row.textContent = cities[i].id + "-" + cities[i].name;
         if (cities[i].id % 2 === 0){
             head_row.classList.add("even_row");
         }
+        for (let j = 0; j < cities.length; j++) {
+            let cell = document.createElement("div");
+            cell.classList.add("cell"); 
+            if (i === j) {
+                cell.textContent = ""; 
+            } else {
+                let distance = "";
+                for (const range of distances) {
+                    if (range.city1 === i && range.city2 === j || range.city1 === j && range.city2 === i) {
+                        distance = range.distance;
+                        break;
+                    }
+                }
+                cell.textContent = distance / 10; 
+            }
+            if (cities[i].id % 2 === 0){
+                cell.classList.add("even_row");
+            }
+            
+            diagram.appendChild(cell);
+        }
+        
     }
 }
+
 column();
 row();
 console.log(column)
