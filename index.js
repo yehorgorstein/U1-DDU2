@@ -13,8 +13,6 @@ function markCityBox (cityObject, kindOfCity){
     for (let i = 0; i < cities.length; i++){
         if (cities[i].name === cityObject) {
             let cityBox = document.querySelector(`[id="${cities[i].name}"]`);
-            console.log(longestDistanceToCity)
-            console.log(shortestDistanceToCity)
             if (cityBox){
                 if (kindOfCity === "target"){
                     target.textContent = cities[i].name + " " + "(" + cities[i].country + ")";
@@ -109,8 +107,7 @@ function getFurthestCity(targetCityObject) {
 function column (){
     for (let i = 0; i < cities.length; i++){
         let head_column = document.createElement("div");
-        head_column.classList.add("head_column");
-        head_column.classList.add("cell");
+        head_column.classList.add("head_column", "cell");
         diagram.appendChild(head_column);
         head_column.textContent = cities[i].id;
     }
@@ -128,6 +125,9 @@ function row (){
         for (let j = 0; j < cities.length; j++) {
             let cell = document.createElement("div");
             cell.classList.add("cell"); 
+            if (j % 2 === 0){
+                cell.classList.add("even_col");
+            }
             if (i === j) {
                 cell.textContent = ""; 
             } else {
